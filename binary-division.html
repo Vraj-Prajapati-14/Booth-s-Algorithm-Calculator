@@ -15,7 +15,119 @@
          crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary Division Calculator - Restoring & Non-Restoring Algorithm</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Binary Division Calculator - Restoring & Non-Restoring Algorithm | Free Online Tool</title>
+    <meta name="title" content="Binary Division Calculator - Restoring & Non-Restoring Algorithm | Free Online Tool">
+    <meta name="description" content="Free online binary division calculator with step-by-step solutions. Learn Restoring and Non-Restoring division algorithms with interactive examples and detailed explanations. Perfect for computer science students and digital logic design.">
+    <meta name="keywords" content="binary division calculator, restoring division algorithm, non-restoring division, computer arithmetic, digital logic, binary arithmetic, computer science, algorithm calculator, step-by-step division, binary number division">
+    <meta name="author" content="Vraj Prajapati">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/binary-division.html">
+    <meta property="og:title" content="Binary Division Calculator - Restoring & Non-Restoring Algorithm">
+    <meta property="og:description" content="Free online binary division calculator with step-by-step solutions. Learn Restoring and Non-Restoring division algorithms with interactive examples.">
+    <meta property="og:image" content="https://your-domain.com/images/binary-division-og.jpg">
+    <meta property="og:site_name" content="Binary Division Calculator">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-domain.com/binary-division.html">
+    <meta property="twitter:title" content="Binary Division Calculator - Restoring & Non-Restoring Algorithm">
+    <meta property="twitter:description" content="Free online binary division calculator with step-by-step solutions. Learn Restoring and Non-Restoring division algorithms with interactive examples.">
+    <meta property="twitter:image" content="https://your-domain.com/images/binary-division-twitter.jpg">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Binary Division Calculator">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com/binary-division.html">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Binary Division Calculator",
+        "description": "Free online binary division calculator with step-by-step solutions for Restoring and Non-Restoring division algorithms",
+        "url": "https://your-domain.com/binary-division.html",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Vraj Prajapati",
+            "email": "prajapativraj147@gmail.com"
+        },
+        "creator": {
+            "@type": "Person",
+            "name": "Vraj Prajapati"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Binary Division Calculator"
+        },
+        "keywords": "binary division, calculator, algorithm, computer science, digital logic",
+        "educationalUse": "Learning",
+        "learningResourceType": "Interactive Resource",
+        "interactivityType": "Active",
+        "typicalAgeRange": "16-25",
+        "educationalLevel": "Undergraduate"
+    }
+    </script>
+    
+    <!-- Additional Structured Data for Educational Content -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Binary Division Algorithms: Restoring vs Non-Restoring Methods",
+        "description": "Comprehensive guide to binary division algorithms including Restoring and Non-Restoring methods with step-by-step examples and interactive calculator",
+        "image": "https://your-domain.com/images/binary-division-article.jpg",
+        "author": {
+            "@type": "Person",
+            "name": "Vraj Prajapati"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Binary Division Calculator",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://your-domain.com/images/logo.png"
+            }
+        },
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-12-19",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://your-domain.com/binary-division.html"
+        },
+        "articleSection": "Computer Science",
+        "keywords": "binary division, computer arithmetic, digital logic, algorithm, calculator"
+    }
+    </script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -34,6 +146,11 @@
                 <li><a href="#examples" class="nav-link">Examples</a></li>
                 <li><a href="index.html" class="nav-link">Booth's Algorithm</a></li>
             </ul>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
@@ -60,13 +177,15 @@
     <section id="theory" class="theory-section">
         <div class="container">
             <h2 class="section-title">Binary Division Theory</h2>
+            <p class="section-subtitle">Understanding the fundamental concepts of binary division algorithms</p>
+            
             <div class="theory-grid">
                 <div class="theory-card">
                     <div class="card-icon">
                         <i class="fas fa-divide"></i>
                     </div>
                     <h3>What is Binary Division?</h3>
-                    <p>Binary division is the process of dividing two binary numbers to find the quotient and remainder. Unlike decimal division, binary division uses only 0s and 1s, making it fundamental to computer arithmetic.</p>
+                    <p>Binary division is the process of dividing two binary numbers to find the quotient and remainder. Unlike decimal division, binary division uses only 0s and 1s, making it fundamental to computer arithmetic and digital logic design.</p>
                 </div>
 
                 <div class="theory-card">
@@ -92,6 +211,167 @@
                     <h3>Algorithm Steps</h3>
                     <p>Both algorithms follow similar steps: initialize registers, perform subtraction/addition based on remainder sign, shift operations, and repeat until all bits are processed. The key difference is in handling negative remainders.</p>
                 </div>
+            </div>
+
+            <!-- Mathematical Formulas -->
+            <div class="math-formula">
+                <h4>Basic Division Formula</h4>
+                <div class="formula-text">Dividend = (Quotient × Divisor) + Remainder</div>
+                <div class="formula-explanation">
+                    <p><strong>Where:</strong></p>
+                    <p>• <strong>Dividend (Q):</strong> The number being divided</p>
+                    <p>• <strong>Divisor (M):</strong> The number dividing the dividend</p>
+                    <p>• <strong>Quotient:</strong> The result of division</p>
+                    <p>• <strong>Remainder:</strong> The leftover value after division</p>
+                </div>
+            </div>
+
+            <div class="math-formula">
+                <h4>Restoring Division Algorithm</h4>
+                <div class="formula-text">If (A - M) ≥ 0: Q[0] = 1, A = A - M</div>
+                <div class="formula-text">Else: Q[0] = 0, A = A (restore)</div>
+                <div class="formula-explanation">
+                    <p><strong>Steps:</strong></p>
+                    <p>1. Initialize A = 0, Q = dividend, M = divisor</p>
+                    <p>2. For each bit: Subtract M from A</p>
+                    <p>3. If result ≥ 0: Set quotient bit to 1</p>
+                    <p>4. If result < 0: Set quotient bit to 0 and restore A</p>
+                    <p>5. Shift A and Q left</p>
+                </div>
+            </div>
+
+            <div class="math-formula">
+                <h4>Non-Restoring Division Algorithm</h4>
+                <div class="formula-text">If A ≥ 0: Q[0] = 1, A = 2A - M</div>
+                <div class="formula-text">Else: Q[0] = 0, A = 2A + M</div>
+                <div class="formula-explanation">
+                    <p><strong>Steps:</strong></p>
+                    <p>1. Initialize A = 0, Q = dividend, M = divisor</p>
+                    <p>2. For each bit: Check sign of A</p>
+                    <p>3. If A ≥ 0: Subtract M, set quotient bit to 1</p>
+                    <p>4. If A < 0: Add M, set quotient bit to 0</p>
+                    <p>5. Shift A and Q left</p>
+                </div>
+            </div>
+
+            <!-- Booth's Algorithm Flowchart -->
+            <div class="algorithm-flowchart">
+                <h3>Booth's Multiplication Algorithm Flowchart</h3>
+                <div class="flowchart-container">
+                    <!-- SVG Flowchart (Embedded) -->
+                    <svg width="800" height="700" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <style>
+                                .flowchart { font-family: Arial, sans-serif; font-size: 14px; }
+                                .start-end { fill: #4CAF50; stroke: #2E7D32; stroke-width: 2; }
+                                .process { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2; }
+                                .decision { fill: #FFF3E0; stroke: #F57C00; stroke-width: 2; }
+                                .arrow { stroke: #424242; fill: none; stroke-width: 2; marker-end: url(#arrowhead); }
+                                .label { font-size: 12px; fill: #666; font-weight: bold; }
+                                .text-white { fill: white; }
+                                .text-dark { fill: #333; }
+                            </style>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#424242" />
+                            </marker>
+                        </defs>
+
+                        <!-- START -->
+                        <ellipse cx="400" cy="40" rx="80" ry="35" class="start-end"/>
+                        <text x="400" y="47" text-anchor="middle" class="flowchart text-white" font-weight="bold">START</text>
+
+                        <!-- Initialization -->
+                        <rect x="250" y="100" width="300" height="100" class="process" rx="10"/>
+                        <text x="400" y="130" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Initialization:</text>
+                        <text x="400" y="150" text-anchor="middle" class="flowchart text-dark">AC = 0, Qn+1 = 0, SC = n</text>
+                        <text x="400" y="170" text-anchor="middle" class="flowchart text-dark">BR ← Multiplicand, QR ← Multiplier</text>
+                        <text x="400" y="190" text-anchor="middle" class="flowchart text-dark">(QR holds the multiplier)</text>
+
+                        <!-- Decision Qn Qn+1 -->
+                        <polygon points="400,220 320,280 480,280" class="decision"/>
+                        <text x="400" y="265" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Qn Qn+1</text>
+
+                        <!-- Path 10 (Left) -->
+                        <rect x="100" y="300" width="120" height="80" class="process" rx="8"/>
+                        <text x="160" y="330" text-anchor="middle" class="flowchart text-dark">AC ← AC + BR + 1</text>
+                        <text x="160" y="350" text-anchor="middle" class="flowchart text-dark">(AC = AC - BR)</text>
+                        <text x="160" y="370" text-anchor="middle" class="flowchart text-dark">(Two's complement)</text>
+
+                        <!-- Path 01 (Right) -->
+                        <rect x="580" y="300" width="120" height="80" class="process" rx="8"/>
+                        <text x="640" y="330" text-anchor="middle" class="flowchart text-dark">AC ← AC + BR</text>
+                        <text x="640" y="350" text-anchor="middle" class="flowchart text-dark">(Add multiplicand)</text>
+
+                        <!-- Path 00/11 (Middle) - No operation -->
+                        <rect x="350" y="300" width="100" height="80" class="process" rx="8"/>
+                        <text x="400" y="340" text-anchor="middle" class="flowchart text-dark">No Operation</text>
+
+                        <!-- Shift and Decrement -->
+                        <rect x="250" y="400" width="300" height="100" class="process" rx="10"/>
+                        <text x="400" y="430" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Shift and Decrement:</text>
+                        <text x="400" y="450" text-anchor="middle" class="flowchart text-dark">ashr (AC & QR)</text>
+                        <text x="400" y="470" text-anchor="middle" class="flowchart text-dark">(Arithmetic Shift Right)</text>
+                        <text x="400" y="490" text-anchor="middle" class="flowchart text-dark">SC = SC - 1</text>
+
+                        <!-- Decision SC -->
+                        <polygon points="400,520 320,580 480,580" class="decision"/>
+                        <text x="400" y="565" text-anchor="middle" class="flowchart text-dark" font-weight="bold">SC</text>
+
+                        <!-- END -->
+                        <ellipse cx="400" cy="650" rx="80" ry="35" class="start-end"/>
+                        <text x="400" y="657" text-anchor="middle" class="flowchart text-white" font-weight="bold">END</text>
+
+                        <!-- Arrows -->
+                        <path d="M400,75 L400,100" class="arrow"/>
+                        <path d="M400,200 L400,220" class="arrow"/>
+                        
+                        <!-- From decision to paths -->
+                        <path d="M320,280 L220,300" class="arrow"/>
+                        <path d="M480,280 L580,300" class="arrow"/>
+                        <path d="M400,280 L400,300" class="arrow"/>
+                        
+                        <!-- From paths to shift -->
+                        <path d="M160,380 L250,450" class="arrow"/>
+                        <path d="M640,380 L550,450" class="arrow"/>
+                        <path d="M400,380 L400,400" class="arrow"/>
+                        
+                        <!-- From shift to SC decision -->
+                        <path d="M400,500 L400,520" class="arrow"/>
+                        
+                        <!-- From SC decision -->
+                        <path d="M320,580 L400,615" class="arrow"/>
+                        <path d="M400,580 L400,615" class="arrow"/>
+
+                        <!-- Labels -->
+                        <text x="280" y="320" class="label">10</text>
+                        <text x="520" y="320" class="label">01</text>
+                        <text x="400" y="320" class="label">00/11</text>
+                        <text x="320" y="600" class="label">≠ 0</text>
+                        <text x="400" y="640" class="label">= 0</text>
+                        
+                        <!-- Loop back arrow -->
+                        <path d="M400,615 Q400,680 400,720 Q200,720 200,580 Q200,520 320,580" class="arrow" stroke-dasharray="5,5"/>
+                        <text x="180" y="650" class="label">Loop back</text>
+                    </svg>
+                </div>
+                <p class="flowchart-caption">Flowchart showing the step-by-step process of Booth's multiplication algorithm with proper initialization, decision logic, and arithmetic operations</p>
+            </div>
+
+            <!-- Additional Flowchart Image (External) -->
+            <div class="algorithm-flowchart">
+                <h3>Booth's Algorithm Flowchart (External Image)</h3>
+                <div class="flowchart-container">
+                    <!-- You can replace this with your actual flowchart image -->
+                    <img src="images/booths-algorithm-flowchart.png" alt="Booth's Multiplication Algorithm Flowchart" class="flowchart-image" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <!-- Fallback if image doesn't exist -->
+                    <div class="image-placeholder" style="background: #f8f9fa; border: 2px dashed #dee2e6; padding: 40px; text-align: center; border-radius: 10px; color: #6c757d;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+                        <p><strong>Flowchart Image Placeholder</strong></p>
+                        <p>Add your flowchart image as "images/booths-algorithm-flowchart.png"</p>
+                        <p>Or replace the src attribute with your image URL</p>
+                    </div>
+                </div>
+                <p class="flowchart-caption">External flowchart image showing Booth's multiplication algorithm process</p>
             </div>
 
             <!-- Algorithm Comparison -->
@@ -126,6 +406,11 @@
                                 <td>Error Handling</td>
                                 <td>Easy to debug</td>
                                 <td>Harder to debug</td>
+                            </tr>
+                            <tr>
+                                <td>Applications</td>
+                                <td>Educational purposes</td>
+                                <td>High-performance systems</td>
                             </tr>
                         </tbody>
                     </table>
@@ -232,7 +517,6 @@
                                 <span class="result-label">Remainder (Decimal):</span>
                                 <span id="finalRemainderDecimal" class="result-decimal">0</span>
                             </div>
-
                         </div>
                         <div id="resultInfo" class="result-info">
                             <!-- Detailed result information will be populated by JavaScript -->
