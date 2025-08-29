@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Division Calculator - Restoring & Non-Restoring Algorithm</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calculator"></i>
+                <span>Binary Division Calculator</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#theory" class="nav-link">Theory</a></li>
+                <li><a href="#calculator" class="nav-link">Calculator</a></li>
+                <li><a href="#examples" class="nav-link">Examples</a></li>
+                <li><a href="index.html" class="nav-link">Booth's Algorithm</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Binary Division Calculator</h1>
+            <p class="hero-subtitle">Learn and practice Restoring & Non-Restoring Division algorithms with step-by-step visualization</p>
+            <div class="hero-buttons">
+                <a href="#calculator" class="btn btn-primary">Try Calculator</a>
+                <a href="#theory" class="btn btn-secondary">Learn Theory</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="binary-animation">
+                <div class="binary-line">Dividend</div>
+                <div class="binary-line">÷ Divisor</div>
+                <div class="binary-line">= Quotient R Remainder</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theory Section -->
+    <section id="theory" class="theory-section">
+        <div class="container">
+            <h2 class="section-title">Binary Division Theory</h2>
+            <div class="theory-grid">
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-divide"></i>
+                    </div>
+                    <h3>What is Binary Division?</h3>
+                    <p>Binary division is the process of dividing two binary numbers to find the quotient and remainder. Unlike decimal division, binary division uses only 0s and 1s, making it fundamental to computer arithmetic.</p>
+                </div>
+
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h3>Restoring Division</h3>
+                    <p>In restoring division, we subtract the divisor from the partial remainder. If the result is negative, we restore the original value by adding the divisor back. This method is straightforward but requires an extra addition step.</p>
+                </div>
+
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-forward"></i>
+                    </div>
+                    <h3>Non-Restoring Division</h3>
+                    <p>Non-restoring division eliminates the restoration step. If the partial remainder is negative, we continue with the negative value and add the divisor in the next iteration. This method is more efficient but slightly more complex.</p>
+                </div>
+
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Algorithm Steps</h3>
+                    <p>Both algorithms follow similar steps: initialize registers, perform subtraction/addition based on remainder sign, shift operations, and repeat until all bits are processed. The key difference is in handling negative remainders.</p>
+                </div>
+            </div>
+
+            <!-- Algorithm Comparison -->
+            <div class="algorithm-comparison">
+                <h3>Algorithm Comparison</h3>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Restoring Division</th>
+                                <th>Non-Restoring Division</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Complexity</td>
+                                <td>Simple to understand</td>
+                                <td>More complex logic</td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td>Slower (extra addition)</td>
+                                <td>Faster (no restoration)</td>
+                            </tr>
+                            <tr>
+                                <td>Hardware</td>
+                                <td>More hardware needed</td>
+                                <td>Less hardware needed</td>
+                            </tr>
+                            <tr>
+                                <td>Error Handling</td>
+                                <td>Easy to debug</td>
+                                <td>Harder to debug</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <h2 class="section-title">Binary Division Calculator</h2>
+            
+            <div class="calculator-container">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="dividend">Dividend (Q)</label>
+                        <input type="number" id="dividend" placeholder="Enter dividend" value="14">
+                        <span class="binary-display">Binary: <span id="dividendBinary">00001110</span></span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="divisor">Divisor (M)</label>
+                        <input type="number" id="divisor" placeholder="Enter divisor" value="3">
+                        <span class="binary-display">Binary: <span id="divisorBinary">00000011</span></span>
+                    </div>
+
+                    <div class="algorithm-selector">
+                        <label>Select Algorithm:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="algorithm" value="restoring" checked>
+                                <span class="radio-custom"></span>
+                                Restoring Division
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="algorithm" value="non-restoring">
+                                <span class="radio-custom"></span>
+                                Non-Restoring Division
+                            </label>
+                        </div>
+                    </div>
+
+                    <button id="calculateBtn" class="btn btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        Calculate Division
+                    </button>
+
+                    <div class="expected-result">
+                        <span>Expected Result: <span id="expectedResult">4 R 2</span></span>
+                    </div>
+                </div>
+
+                <!-- Step-by-Step Process -->
+                <div class="steps-container">
+                    <h3>Step-by-Step Process</h3>
+                    <div class="steps-controls">
+                        <button id="prevStep" class="btn btn-secondary" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+                        <span id="stepCounter" class="step-counter">Step 0 of 0</span>
+                        <button id="nextStep" class="btn btn-secondary" disabled>
+                            Next
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="steps-table-container">
+                        <table id="stepsTable" class="steps-table">
+                            <thead>
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Operation</th>
+                                    <th>A (Accumulator)</th>
+                                    <th>Q (Dividend)</th>
+                                    <th>M (Divisor)</th>
+                                    <th>Action</th>
+                                    <th>Explanation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stepsTableBody">
+                                <!-- Steps will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="final-result">
+                        <h4>Final Result</h4>
+                        <div class="result-display">
+                            <div class="result-row">
+                                <span class="result-label">Quotient (Binary):</span>
+                                <span id="finalQuotientBinary" class="result-binary">00000000</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Quotient (Decimal):</span>
+                                <span id="finalQuotientDecimal" class="result-decimal">0</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Remainder (Binary):</span>
+                                <span id="finalRemainderBinary" class="result-binary">00000000</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="result-label">Remainder (Decimal):</span>
+                                <span id="finalRemainderDecimal" class="result-decimal">0</span>
+                            </div>
+
+                        </div>
+                        <div id="resultInfo" class="result-info">
+                            <!-- Detailed result information will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="examples-section">
+        <div class="container">
+            <h2 class="section-title">Practice Examples</h2>
+            <div class="examples-grid">
+                <div class="example-card" data-dividend="14" data-divisor="3">
+                    <h4>14 ÷ 3 = 4 R 2</h4>
+                    <p>Simple Division</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-dividend="25" data-divisor="4">
+                    <h4>25 ÷ 4 = 6 R 1</h4>
+                    <p>Medium Division</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-dividend="100" data-divisor="7">
+                    <h4>100 ÷ 7 = 14 R 2</h4>
+                    <p>Large Division</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-dividend="50" data-divisor="8">
+                    <h4>50 ÷ 8 = 6 R 2</h4>
+                    <p>Power of 2 Division</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Binary Division Calculator</h3>
+                    <p>Educational tool for learning computer architecture and binary arithmetic</p>
+                </div>
+                <div class="footer-developer">
+                    <h4>Developed By</h4>
+                    <p><strong>Vraj Prajapati</strong></p>
+                    <p><a href="mailto:prajapativraj147@gmail.com">prajapativraj147@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Binary Division Calculator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="binary-division.js"></script>
+</body>
+</html>
