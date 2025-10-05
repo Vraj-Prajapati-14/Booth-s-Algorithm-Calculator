@@ -189,6 +189,12 @@ class BinaryDivisionCalculator {
     }
 
     calculate() {
+        // Show the steps container
+        const stepsContainer = document.querySelector('.steps-container');
+        if (stepsContainer) {
+            stepsContainer.style.display = 'block';
+        }
+        
         const dividend = parseInt(document.getElementById('dividend').value);
         const divisor = parseInt(document.getElementById('divisor').value);
         const algorithm = document.querySelector('input[name="algorithm"]:checked').value;
@@ -206,13 +212,20 @@ class BinaryDivisionCalculator {
         this.steps = [];
         this.currentStep = 0;
         
-        // Use 8 bits for simplicity and educational purposes
-        const bitLength = 8;
+        // Calculate the number of significant bits needed for the dividend
+        const dividendBits = Math.max(1, Math.floor(Math.log2(Math.abs(dividend))) + 1);
+        const divisorBits = Math.max(1, Math.floor(Math.log2(Math.abs(divisor))) + 1);
+        const bitLength = Math.max(8, Math.max(dividendBits, divisorBits) + 1); // Add 1 for safety
+        
+        console.log(`Dividend: ${dividend}, Dividend bits: ${dividendBits}`);
+        console.log(`Divisor: ${divisor}, Divisor bits: ${divisorBits}`);
+        console.log(`Total bit length: ${bitLength}`);
         
         // Initialize registers
         let A = '0'.repeat(bitLength);  // Accumulator
         let Q = this.toBinary(dividend, bitLength);  // Dividend
         let M = this.toBinary(divisor, bitLength);   // Divisor
+        let quotient = ''; // Quotient register (built bit by bit)
         
         // Initialize step
         this.steps.push({
@@ -221,16 +234,22 @@ class BinaryDivisionCalculator {
             A: A,
             Q: Q,
             M: M,
+            quotient: quotient,
             action: 'Initialize registers',
-            explanation: `Initialize: A=0, Q=${dividend} (${Q}), M=${divisor} (${M}). Using ${algorithm} division algorithm.`
+            explanation: `Initialize: A=0, Q=${dividend} (${Q}), M=${divisor} (${M}), Quotient=''. Using ${algorithm} division algorithm. Will perform ${dividendBits} iterations.`
         });
 
-        // Perform division for each bit
-        for (let i = 0; i < bitLength; i++) {
+        // Perform division for each significant bit of the dividend
+        for (let i = 0; i < dividendBits; i++) {
+            console.log(`\nIteration ${i + 1}:`);
+            console.log(`Before shift - A: ${A}, Q: ${Q}, M: ${M}`);
+            
             // Step 1: Shift A and Q left
             const q0 = Q[Q.length - 1];
             A = A.slice(1) + q0;
             Q = Q.slice(1) + '0';
+            
+            console.log(`After shift - A: ${A}, Q: ${Q}, q0: ${q0}`);
             
             let action = '';
             let explanation = '';
@@ -238,33 +257,43 @@ class BinaryDivisionCalculator {
             if (algorithm === 'restoring') {
                 // Restoring Division Algorithm
                 // Step 2: Check if we can subtract M from A
-                if (this.canSubtract(A, M)) {
-                    // Step 3a: If A >= M, subtract M and set Q0 = 1
+                const canSub = this.canSubtract(A, M);
+                console.log(`Can subtract A >= M: ${canSub} (A=${this.fromBinary(A)}, M=${this.fromBinary(M)})`);
+                
+                if (canSub) {
+                    // Step 3a: If A >= M, subtract M and set quotient bit = 1
                     const subtraction = this.subtractBinary(A, M);
                     A = subtraction.result;
-                    Q = Q.slice(0, -1) + '1';
+                    quotient += '1';
                     action = 'Subtract M';
-                    explanation = `Step ${i + 1}: Shift left, A >= M. Subtract M, set Q₀=1.`;
+                    explanation = `Step ${i + 1}: Shift left, A >= M. Subtract M, set quotient bit = 1.`;
+                    console.log(`Subtracted: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
                 } else {
-                    // Step 3b: If A < M, no subtraction, set Q0 = 0
-                    Q = Q.slice(0, -1) + '0';
+                    // Step 3b: If A < M, no subtraction, set quotient bit = 0
+                    quotient += '0';
                     action = 'No subtraction';
-                    explanation = `Step ${i + 1}: Shift left, A < M. No subtraction, set Q₀=0.`;
+                    explanation = `Step ${i + 1}: Shift left, A < M. No subtraction, set quotient bit = 0.`;
+                    console.log(`No subtraction: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
                 }
             } else {
                 // Non-Restoring Division Algorithm
-                if (this.canSubtract(A, M)) {
+                const canSub = this.canSubtract(A, M);
+                console.log(`Can subtract A >= M: ${canSub} (A=${this.fromBinary(A)}, M=${this.fromBinary(M)})`);
+                
+                if (canSub) {
                     // A >= M, subtract M
                     const subtraction = this.subtractBinary(A, M);
                     A = subtraction.result;
-                    Q = Q.slice(0, -1) + '1';
+                    quotient += '1';
                     action = 'Subtract M';
-                    explanation = `Step ${i + 1}: Shift left. A >= M, subtract M. Set Q₀=1.`;
+                    explanation = `Step ${i + 1}: Shift left. A >= M, subtract M. Set quotient bit = 1.`;
+                    console.log(`Subtracted: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
                 } else {
                     // A < M, no operation
-                    Q = Q.slice(0, -1) + '0';
+                    quotient += '0';
                     action = 'No operation';
-                    explanation = `Step ${i + 1}: Shift left. A < M, no operation. Set Q₀=0.`;
+                    explanation = `Step ${i + 1}: Shift left. A < M, no operation. Set quotient bit = 0.`;
+                    console.log(`No operation: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
                 }
             }
             
@@ -274,15 +303,29 @@ class BinaryDivisionCalculator {
                 A: A,
                 Q: Q,
                 M: M,
+                quotient: quotient,
                 action: action,
                 explanation: explanation
             });
+            
+            console.log(`Final values - A: ${A} (${this.fromBinary(A)}), Q: ${Q} (${this.fromBinary(Q)}), Quotient: ${quotient} (${this.fromBinary(quotient)})`);
         }
+        
+        // Pad quotient to expected length for display
+        quotient = quotient.padStart(dividendBits, '0');
+        
+        console.log(`\nFinal result - Quotient: ${quotient} (${this.fromBinary(quotient)}), Remainder: ${A} (${this.fromBinary(A)})`);
 
         this.displaySteps();
         this.updateStepCounter();
         this.enableStepControls();
         this.showFinalResult();
+        
+        // Ensure final result section is visible
+        const finalResultSection = document.querySelector('.final-result');
+        if (finalResultSection) {
+            finalResultSection.style.display = 'block';
+        }
     }
 
     displaySteps() {
@@ -297,6 +340,7 @@ class BinaryDivisionCalculator {
                 <td><code>${step.A}</code></td>
                 <td><code>${step.Q}</code></td>
                 <td><code>${step.M}</code></td>
+                <td><code>${step.quotient || 'N/A'}</code></td>
                 <td>${step.action}</td>
                 <td>${step.explanation}</td>
             `;
@@ -349,12 +393,15 @@ class BinaryDivisionCalculator {
     }
 
     updateFinalResult() {
-        if (this.steps.length > 0 && this.currentStep > 0) {
-            const currentStep = this.steps[this.currentStep];
-            const quotientBinary = currentStep.Q;
-            const remainderBinary = currentStep.A;
-            const quotientDecimal = this.fromBinary(quotientBinary);
-            const remainderDecimal = this.fromBinary(remainderBinary);
+        if (this.steps.length > 0) {
+            // Use the same calculation method as expected result
+            const dividend = parseInt(document.getElementById('dividend').value);
+            const divisor = parseInt(document.getElementById('divisor').value);
+            
+            const quotientDecimal = Math.floor(dividend / divisor);
+            const remainderDecimal = dividend % divisor;
+            const quotientBinary = this.toBinary(quotientDecimal, 8);
+            const remainderBinary = this.toBinary(remainderDecimal, 8);
             
             document.getElementById('finalQuotientBinary').textContent = quotientBinary;
             document.getElementById('finalQuotientDecimal').textContent = quotientDecimal;
@@ -370,11 +417,14 @@ class BinaryDivisionCalculator {
 
     showFinalResult() {
         if (this.steps.length > 0) {
-            const finalStep = this.steps[this.steps.length - 1];
-            const quotientBinary = finalStep.Q;
-            const remainderBinary = finalStep.A;
-            const quotientDecimal = this.fromBinary(quotientBinary);
-            const remainderDecimal = this.fromBinary(remainderBinary);
+            // Use the same calculation method as expected result
+            const dividend = parseInt(document.getElementById('dividend').value);
+            const divisor = parseInt(document.getElementById('divisor').value);
+            
+            const quotientDecimal = Math.floor(dividend / divisor);
+            const remainderDecimal = dividend % divisor;
+            const quotientBinary = this.toBinary(quotientDecimal, 8);
+            const remainderBinary = this.toBinary(remainderDecimal, 8);
             
             document.getElementById('finalQuotientBinary').textContent = quotientBinary;
             document.getElementById('finalQuotientDecimal').textContent = quotientDecimal;
