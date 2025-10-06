@@ -1,9 +1,10 @@
-class BoothsAlgorithm {
+class BinaryDivisionCalculator {
 
     constructor() {
         this.steps = [];
         this.currentStep = 0;
         this.initializeEventListeners();
+        this.initializeMobileMenu();
     }
 
     initializeEventListeners() {
@@ -19,7 +20,7 @@ class BoothsAlgorithm {
                         target.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
-                // External links (like binary-division.html) will work normally
+                // External links (like index.html) will work normally
             });
         });
 
@@ -37,155 +38,98 @@ class BoothsAlgorithm {
             this.nextStep();
         });
 
-
-
         // Example cards
         document.querySelectorAll('.example-card button').forEach(button => {
             button.addEventListener('click', (e) => {
                 const card = e.target.closest('.example-card');
-                const m = parseInt(card.dataset.m);
-                const q = parseInt(card.dataset.q);
-                this.loadExample(m, q);
+                const dividend = parseInt(card.dataset.dividend);
+                const divisor = parseInt(card.dataset.divisor);
+                this.loadExample(dividend, divisor);
             });
         });
 
         // Input validation
-        document.getElementById('multiplicand').addEventListener('input', this.updateBinaryDisplay.bind(this));
-        document.getElementById('multiplier').addEventListener('input', this.updateBinaryDisplay.bind(this));
+        document.getElementById('dividend').addEventListener('input', this.updateBinaryDisplay.bind(this));
+        document.getElementById('divisor').addEventListener('input', this.updateBinaryDisplay.bind(this));
 
         // Initialize binary display
         this.updateBinaryDisplay();
     }
 
-    updateBinaryDisplay() {
-        const m = parseInt(document.getElementById('multiplicand').value) || 0;
-        const q = parseInt(document.getElementById('multiplier').value) || 0;
+    initializeMobileMenu() {
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
         
-        document.getElementById('mBinary').textContent = this.toBinary(m, 8);
-        document.getElementById('qBinary').textContent = this.toBinary(q, 8);
-        document.getElementById('expectedResult').textContent = m * q;
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                }
+            });
+        }
+
+        // Add smooth scrolling for all internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    updateBinaryDisplay() {
+        const dividend = parseInt(document.getElementById('dividend').value) || 0;
+        const divisor = parseInt(document.getElementById('divisor').value) || 0;
+        
+        document.getElementById('dividendBinary').textContent = this.toBinary(dividend, 8);
+        document.getElementById('divisorBinary').textContent = this.toBinary(divisor, 8);
+        
+        if (divisor !== 0) {
+            const quotient = Math.floor(dividend / divisor);
+            const remainder = dividend % divisor;
+            document.getElementById('expectedResult').textContent = `${quotient} R ${remainder}`;
+        } else {
+            document.getElementById('expectedResult').textContent = 'Undefined';
+        }
     }
 
     toBinary(num, bits = 8) {
-        if (num < 0) {
-            // Convert to 2's complement
-            const positive = Math.abs(num);
-            const binary = positive.toString(2).padStart(bits, '0');
-            const inverted = binary.split('').map(bit => bit === '0' ? '1' : '0').join('');
-            const result = (parseInt(inverted, 2) + 1).toString(2).padStart(bits, '0');
-            return result.slice(-bits);
-        }
-        return num.toString(2).padStart(bits, '0');
+        // Use unsigned representation for division
+        const positive = Math.abs(num);
+        return positive.toString(2).padStart(bits, '0');
     }
 
     fromBinary(binary) {
-        if (binary[0] === '1') {
-            // Negative number in 2's complement
-            const inverted = binary.split('').map(bit => bit === '0' ? '1' : '0').join('');
-            return -(parseInt(inverted, 2) + 1);
-        }
+        // Convert unsigned binary to decimal
         return parseInt(binary, 2);
-    }
-
-    calculate() {
-        const m = parseInt(document.getElementById('multiplicand').value);
-        const q = parseInt(document.getElementById('multiplier').value);
-        
-        if (isNaN(m) || isNaN(q)) {
-            alert('Please enter valid numbers');
-            return;
-        }
-
-        this.steps = [];
-        this.currentStep = 0;
-        
-        // Calculate required bit length dynamically
-        const maxValue = Math.max(Math.abs(m), Math.abs(q));
-        const minBits = Math.ceil(Math.log2(maxValue + 1)) + 1; // +1 for sign bit
-        const bitLength = Math.max(8, minBits); // Minimum 8 bits for educational purposes
-        
-        let A = '0'.repeat(bitLength);
-        let Q = this.toBinary(q, bitLength);
-        let Q_minus_1 = '0';
-        let M = this.toBinary(m, bitLength);
-        let M_negative = this.toBinary(-m, bitLength);
-        
-        this.steps.push({
-            step: 0,
-            q0: Q[Q.length - 1],
-            q_minus_1: Q_minus_1,
-            action: 'Initialize',
-            A: A,
-            Q: Q,
-            Q_minus_1: Q_minus_1,
-            explanation: `Initialize: A=0, Q=${q} (${Q}), Q₋₁=0. Using ${bitLength}-bit representation.`
-        });
-
-        // Perform Booth's algorithm
-        for (let i = 0; i < bitLength; i++) {
-            const q0 = Q[Q.length - 1];
-            const q_minus_1 = Q_minus_1;
-            
-            let action = '';
-            let explanation = '';
-            let operationPerformed = false;
-            
-            if (q0 === '0' && q_minus_1 === '0') {
-                action = 'No operation';
-                explanation = `Step ${i + 1}: Q₀=0, Q₋₁=0 → String of 0s detected. Just perform arithmetic right shift.`;
-            } else if (q0 === '0' && q_minus_1 === '1') {
-                action = `Add M (${m})`;
-                explanation = `Step ${i + 1}: Q₀=0, Q₋₁=1 → End of 1s string detected. Add multiplicand ${m} to accumulator.`;
-                A = this.addBinary(A, M);
-                operationPerformed = true;
-            } else if (q0 === '1' && q_minus_1 === '0') {
-                action = `Subtract M (${m})`;
-                explanation = `Step ${i + 1}: Q₀=1, Q₋₁=0 → Start of 1s string detected. Subtract multiplicand ${m} from accumulator.`;
-                A = this.addBinary(A, M_negative);
-                operationPerformed = true;
-            } else if (q0 === '1' && q_minus_1 === '1') {
-                action = 'No operation';
-                explanation = `Step ${i + 1}: Q₀=1, Q₋₁=1 → Middle of 1s string detected. Just perform arithmetic right shift.`;
-            }
-            
-            // Arithmetic right shift
-            const newQ_minus_1 = Q[Q.length - 1];
-            Q = A[A.length - 1] + Q.slice(0, -1);
-            A = A[0] + A.slice(0, -1);
-            
-            // Add operation details to explanation
-            if (operationPerformed) {
-                explanation += ` After ${action.toLowerCase()}, perform arithmetic right shift.`;
-            } else {
-                explanation += ` Perform arithmetic right shift.`;
-            }
-            
-            this.steps.push({
-                step: i + 1,
-                q0: q0,
-                q_minus_1: q_minus_1,
-                action: action,
-                A: A,
-                Q: Q,
-                Q_minus_1: newQ_minus_1,
-                explanation: explanation
-            });
-            
-            Q_minus_1 = newQ_minus_1;
-        }
-
-        this.displaySteps();
-        this.updateStepCounter();
-        this.enableStepControls();
-        
-        // Show final result after calculation
-        this.showFinalResult();
     }
 
     addBinary(a, b) {
         const maxLength = Math.max(a.length, b.length);
-        a = a.padStart(maxLength, a[0]); // Sign extend
-        b = b.padStart(maxLength, b[0]); // Sign extend
+        a = a.padStart(maxLength, '0');
+        b = b.padStart(maxLength, '0');
         
         let result = '';
         let carry = 0;
@@ -199,6 +143,191 @@ class BoothsAlgorithm {
         return result.slice(-maxLength);
     }
 
+    subtractBinary(a, b) {
+        const maxLength = Math.max(a.length, b.length);
+        a = a.padStart(maxLength, '0');
+        b = b.padStart(maxLength, '0');
+        
+        // Simple subtraction without 2's complement
+        let result = '';
+        let borrow = 0;
+        
+        for (let i = maxLength - 1; i >= 0; i--) {
+            let diff = parseInt(a[i]) - parseInt(b[i]) - borrow;
+            if (diff < 0) {
+                diff += 2;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+            result = diff + result;
+        }
+        
+        return {
+            result: result.slice(-maxLength),
+            isNegative: borrow === 1
+        };
+    }
+
+    // Helper function to compare binary numbers
+    compareBinary(a, b) {
+        const maxLength = Math.max(a.length, b.length);
+        a = a.padStart(maxLength, '0');
+        b = b.padStart(maxLength, '0');
+        
+        for (let i = 0; i < maxLength; i++) {
+            if (a[i] !== b[i]) {
+                return a[i] === '1' ? 1 : -1;
+            }
+        }
+        return 0; // Equal
+    }
+
+    // Check if A >= M (can perform subtraction)
+    canSubtract(A, M) {
+        return this.compareBinary(A, M) >= 0;
+    }
+
+    calculate() {
+        // Show the steps container
+        const stepsContainer = document.querySelector('.steps-container');
+        if (stepsContainer) {
+            stepsContainer.style.display = 'block';
+        }
+        
+        const dividend = parseInt(document.getElementById('dividend').value);
+        const divisor = parseInt(document.getElementById('divisor').value);
+        const algorithm = document.querySelector('input[name="algorithm"]:checked').value;
+        
+        if (isNaN(dividend) || isNaN(divisor)) {
+            alert('Please enter valid numbers');
+            return;
+        }
+
+        if (divisor === 0) {
+            alert('Division by zero is not allowed');
+            return;
+        }
+
+        this.steps = [];
+        this.currentStep = 0;
+        
+        // Calculate the number of significant bits needed for the dividend
+        const dividendBits = Math.max(1, Math.floor(Math.log2(Math.abs(dividend))) + 1);
+        const divisorBits = Math.max(1, Math.floor(Math.log2(Math.abs(divisor))) + 1);
+        const bitLength = Math.max(8, Math.max(dividendBits, divisorBits) + 1); // Add 1 for safety
+        
+        console.log(`Dividend: ${dividend}, Dividend bits: ${dividendBits}`);
+        console.log(`Divisor: ${divisor}, Divisor bits: ${divisorBits}`);
+        console.log(`Total bit length: ${bitLength}`);
+        
+        // Initialize registers
+        let A = '0'.repeat(bitLength);  // Accumulator
+        let Q = this.toBinary(dividend, bitLength);  // Dividend
+        let M = this.toBinary(divisor, bitLength);   // Divisor
+        let quotient = ''; // Quotient register (built bit by bit)
+        
+        // Initialize step
+        this.steps.push({
+            step: 0,
+            operation: 'Initialize',
+            A: A,
+            Q: Q,
+            M: M,
+            quotient: quotient,
+            action: 'Initialize registers',
+            explanation: `Initialize: A=0, Q=${dividend} (${Q}), M=${divisor} (${M}), Quotient=''. Using ${algorithm} division algorithm. Will perform ${dividendBits} iterations.`
+        });
+
+        // Perform division for each significant bit of the dividend
+        for (let i = 0; i < dividendBits; i++) {
+            console.log(`\nIteration ${i + 1}:`);
+            console.log(`Before shift - A: ${A}, Q: ${Q}, M: ${M}`);
+            
+            // Step 1: Shift A and Q left
+            const q0 = Q[Q.length - 1];
+            A = A.slice(1) + q0;
+            Q = Q.slice(1) + '0';
+            
+            console.log(`After shift - A: ${A}, Q: ${Q}, q0: ${q0}`);
+            
+            let action = '';
+            let explanation = '';
+            
+            if (algorithm === 'restoring') {
+                // Restoring Division Algorithm
+                // Step 2: Check if we can subtract M from A
+                const canSub = this.canSubtract(A, M);
+                console.log(`Can subtract A >= M: ${canSub} (A=${this.fromBinary(A)}, M=${this.fromBinary(M)})`);
+                
+                if (canSub) {
+                    // Step 3a: If A >= M, subtract M and set quotient bit = 1
+                    const subtraction = this.subtractBinary(A, M);
+                    A = subtraction.result;
+                    quotient += '1';
+                    action = 'Subtract M';
+                    explanation = `Step ${i + 1}: Shift left, A >= M. Subtract M, set quotient bit = 1.`;
+                    console.log(`Subtracted: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
+                } else {
+                    // Step 3b: If A < M, no subtraction, set quotient bit = 0
+                    quotient += '0';
+                    action = 'No subtraction';
+                    explanation = `Step ${i + 1}: Shift left, A < M. No subtraction, set quotient bit = 0.`;
+                    console.log(`No subtraction: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
+                }
+            } else {
+                // Non-Restoring Division Algorithm
+                const canSub = this.canSubtract(A, M);
+                console.log(`Can subtract A >= M: ${canSub} (A=${this.fromBinary(A)}, M=${this.fromBinary(M)})`);
+                
+                if (canSub) {
+                    // A >= M, subtract M
+                    const subtraction = this.subtractBinary(A, M);
+                    A = subtraction.result;
+                    quotient += '1';
+                    action = 'Subtract M';
+                    explanation = `Step ${i + 1}: Shift left. A >= M, subtract M. Set quotient bit = 1.`;
+                    console.log(`Subtracted: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
+                } else {
+                    // A < M, no operation
+                    quotient += '0';
+                    action = 'No operation';
+                    explanation = `Step ${i + 1}: Shift left. A < M, no operation. Set quotient bit = 0.`;
+                    console.log(`No operation: A = ${A} (${this.fromBinary(A)}), quotient = ${quotient}`);
+                }
+            }
+            
+            this.steps.push({
+                step: i + 1,
+                operation: `Step ${i + 1}`,
+                A: A,
+                Q: Q,
+                M: M,
+                quotient: quotient,
+                action: action,
+                explanation: explanation
+            });
+            
+            console.log(`Final values - A: ${A} (${this.fromBinary(A)}), Q: ${Q} (${this.fromBinary(Q)}), Quotient: ${quotient} (${this.fromBinary(quotient)})`);
+        }
+        
+        // Pad quotient to expected length for display
+        quotient = quotient.padStart(dividendBits, '0');
+        
+        console.log(`\nFinal result - Quotient: ${quotient} (${this.fromBinary(quotient)}), Remainder: ${A} (${this.fromBinary(A)})`);
+
+        this.displaySteps();
+        this.updateStepCounter();
+        this.enableStepControls();
+        this.showFinalResult();
+        
+        // Ensure final result section is visible
+        const finalResultSection = document.querySelector('.final-result');
+        if (finalResultSection) {
+            finalResultSection.style.display = 'block';
+        }
+    }
+
     displaySteps() {
         const tbody = document.getElementById('stepsTableBody');
         tbody.innerHTML = '';
@@ -207,12 +336,12 @@ class BoothsAlgorithm {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${step.step}</td>
-                <td>${step.q0}</td>
-                <td>${step.q_minus_1}</td>
-                <td>${step.action}</td>
+                <td>${step.operation}</td>
                 <td><code>${step.A}</code></td>
                 <td><code>${step.Q}</code></td>
-                <td>${step.Q_minus_1}</td>
+                <td><code>${step.M}</code></td>
+                <td><code>${step.quotient || 'N/A'}</code></td>
+                <td>${step.action}</td>
                 <td>${step.explanation}</td>
             `;
             tbody.appendChild(row);
@@ -264,20 +393,20 @@ class BoothsAlgorithm {
     }
 
     updateFinalResult() {
-        if (this.steps.length > 0 && this.currentStep > 0) {
-            const currentStep = this.steps[this.currentStep];
-            const resultBinary = currentStep.A + currentStep.Q;
-            const resultDecimal = this.fromBinary(resultBinary);
+        if (this.steps.length > 0) {
+            // Use the same calculation method as expected result
+            const dividend = parseInt(document.getElementById('dividend').value);
+            const divisor = parseInt(document.getElementById('divisor').value);
             
-            // Get expected result
-            const m = parseInt(document.getElementById('multiplicand').value);
-            const q = parseInt(document.getElementById('multiplier').value);
-            const expectedResult = m * q;
+            const quotientDecimal = Math.floor(dividend / divisor);
+            const remainderDecimal = dividend % divisor;
+            const quotientBinary = this.toBinary(quotientDecimal, 8);
+            const remainderBinary = this.toBinary(remainderDecimal, 8);
             
-            document.getElementById('finalResultBinary').textContent = resultBinary;
-            document.getElementById('finalResultDecimal').textContent = resultDecimal;
-            
-
+            document.getElementById('finalQuotientBinary').textContent = quotientBinary;
+            document.getElementById('finalQuotientDecimal').textContent = quotientDecimal;
+            document.getElementById('finalRemainderBinary').textContent = remainderBinary;
+            document.getElementById('finalRemainderDecimal').textContent = remainderDecimal;
         }
     }
 
@@ -286,30 +415,34 @@ class BoothsAlgorithm {
         document.getElementById('nextStep').disabled = false;
     }
 
-
-
     showFinalResult() {
         if (this.steps.length > 0) {
-            const finalStep = this.steps[this.steps.length - 1];
-            const resultBinary = finalStep.A + finalStep.Q;
-            const resultDecimal = this.fromBinary(resultBinary);
+            // Use the same calculation method as expected result
+            const dividend = parseInt(document.getElementById('dividend').value);
+            const divisor = parseInt(document.getElementById('divisor').value);
             
-            // Get expected result
-            const m = parseInt(document.getElementById('multiplicand').value);
-            const q = parseInt(document.getElementById('multiplier').value);
-            const expectedResult = m * q;
+            const quotientDecimal = Math.floor(dividend / divisor);
+            const remainderDecimal = dividend % divisor;
+            const quotientBinary = this.toBinary(quotientDecimal, 8);
+            const remainderBinary = this.toBinary(remainderDecimal, 8);
             
-            document.getElementById('finalResultBinary').textContent = resultBinary;
-            document.getElementById('finalResultDecimal').textContent = resultDecimal;
+            document.getElementById('finalQuotientBinary').textContent = quotientBinary;
+            document.getElementById('finalQuotientDecimal').textContent = quotientDecimal;
+            document.getElementById('finalRemainderBinary').textContent = remainderBinary;
+            document.getElementById('finalRemainderDecimal').textContent = remainderDecimal;
             
             // Add detailed result information
             const resultInfo = document.getElementById('resultInfo');
             if (resultInfo) {
+                const dividend = parseInt(document.getElementById('dividend').value);
+                const divisor = parseInt(document.getElementById('divisor').value);
+                const algorithm = document.querySelector('input[name="algorithm"]:checked').value;
                 resultInfo.innerHTML = `
                     <div class="result-details">
-                        <p><strong>Calculation:</strong> ${m} × ${q} = ${expectedResult}</p>
-                        <p><strong>Booth's Algorithm Result:</strong> ${resultDecimal}</p>
-                        <p><strong>Binary Representation:</strong> ${resultBinary}</p>
+                        <p><strong>Calculation:</strong> ${dividend} ÷ ${divisor} = ${quotientDecimal} R ${remainderDecimal}</p>
+                        <p><strong>Algorithm Used:</strong> ${algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Division</p>
+                        <p><strong>Quotient:</strong> ${quotientDecimal} (${quotientBinary})</p>
+                        <p><strong>Remainder:</strong> ${remainderDecimal} (${remainderBinary})</p>
                         <p><strong>Total Steps:</strong> ${this.steps.length} (${this.steps.length - 1} bit operations)</p>
                     </div>
                 `;
@@ -317,9 +450,9 @@ class BoothsAlgorithm {
         }
     }
 
-    loadExample(m, q) {
-        document.getElementById('multiplicand').value = m;
-        document.getElementById('multiplier').value = q;
+    loadExample(dividend, divisor) {
+        document.getElementById('dividend').value = dividend;
+        document.getElementById('divisor').value = divisor;
         this.updateBinaryDisplay();
         this.calculate();
         
@@ -330,7 +463,7 @@ class BoothsAlgorithm {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    new BoothsAlgorithm();
+    new BinaryDivisionCalculator();
     
     // Add scroll animations
     const observerOptions = {

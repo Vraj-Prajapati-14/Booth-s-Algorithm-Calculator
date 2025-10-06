@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1N2PQJXPPH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1N2PQJXPPH');
+    </script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1987337960066140"
+         crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booth's Algorithm Calculator - Interactive Learning Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-calculator"></i>
+                <span>Booth's Algorithm</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#theory" class="nav-link">Theory</a></li>
+                <li><a href="#calculator" class="nav-link">Calculator</a></li>
+                <li><a href="#examples" class="nav-link">Examples</a></li>
+                <li><a href="index.html" class="nav-link">Binary Division</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Booth's Multiplication Algorithm</h1>
+            <p class="hero-subtitle">Master the efficient way to multiply signed binary numbers with our interactive calculator</p>
+            <div class="hero-buttons">
+                <a href="#theory" class="btn btn-primary">Learn Theory</a>
+                <a href="#calculator" class="btn btn-secondary">Try Calculator</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="binary-animation">
+                <div class="binary-line">1010</div>
+                <div class="binary-line">× 1101</div>
+                <div class="binary-line">= 10000010</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theory Section -->
+    <section id="theory" class="theory-section">
+        <div class="container">
+            <h2 class="section-title">Understanding Booth's Algorithm</h2>
+            
+            <div class="theory-grid">
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>What is Booth's Algorithm?</h3>
+                    <p>Booth's algorithm is a multiplication algorithm for signed binary numbers that reduces the number of additions required by recoding the multiplier. It's particularly efficient for numbers with consecutive 1s or 0s.</p>
+                </div>
+
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>How It Works</h3>
+                    <p>The algorithm examines pairs of bits in the multiplier and performs operations based on the pattern: 00 (no operation), 01 (add), 10 (subtract), 11 (no operation).</p>
+                </div>
+
+                <div class="theory-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Why It's Efficient</h3>
+                    <p>For numbers with consecutive 1s, Booth's algorithm can reduce multiple additions to just one addition and one subtraction, making it much faster than traditional multiplication.</p>
+                </div>
+            </div>
+
+            <!-- Algorithm Steps -->
+            <div class="algorithm-steps">
+                <h3>Algorithm Steps</h3>
+                <div class="step-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Initialize</h4>
+                            <p>Set accumulator (A) to 0, load multiplier (Q), and set Q₋₁ to 0</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Examine Bits</h4>
+                            <p>Look at Q₀ and Q₋₁ to determine the operation</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Perform Operation</h4>
+                            <p>Add, subtract, or do nothing based on bit pattern</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Shift Right</h4>
+                            <p>Arithmetic right shift of A and Q</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Repeat</h4>
+                            <p>Continue until all bits are processed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booth's Recoding Table -->
+            <div class="recoding-table">
+                <h3>Booth's Recoding Rules</h3>
+                <div class="table-container">
+                    <table class="booth-table">
+                        <thead>
+                            <tr>
+                                <th>Q₀</th>
+                                <th>Q₋₁</th>
+                                <th>Action</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>No operation</td>
+                                <td>String of 0s - just shift</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>1</td>
+                                <td>Add M to A</td>
+                                <td>End of 1s string - add multiplicand</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>Subtract M from A</td>
+                                <td>Start of 1s string - subtract multiplicand</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>No operation</td>
+                                <td>Middle of 1s string - just shift</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Booth's Algorithm Flowchart -->
+            <div class="algorithm-flowchart">
+                <h3>Booth's Multiplication Algorithm Flowchart</h3>
+                <div class="flowchart-container">
+                    <!-- SVG Flowchart (Embedded) -->
+                    <svg width="800" height="700" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <style>
+                                .flowchart { font-family: Arial, sans-serif; font-size: 14px; }
+                                .start-end { fill: #4CAF50; stroke: #2E7D32; stroke-width: 2; }
+                                .process { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2; }
+                                .decision { fill: #FFF3E0; stroke: #F57C00; stroke-width: 2; }
+                                .arrow { stroke: #424242; fill: none; stroke-width: 2; marker-end: url(#arrowhead); }
+                                .label { font-size: 12px; fill: #666; font-weight: bold; }
+                                .text-white { fill: white; }
+                                .text-dark { fill: #333; }
+                            </style>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#424242" />
+                            </marker>
+                        </defs>
+
+                        <!-- START -->
+                        <ellipse cx="400" cy="40" rx="80" ry="35" class="start-end"/>
+                        <text x="400" y="47" text-anchor="middle" class="flowchart text-white" font-weight="bold">START</text>
+
+                        <!-- Initialization -->
+                        <rect x="250" y="100" width="300" height="100" class="process" rx="10"/>
+                        <text x="400" y="130" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Initialization:</text>
+                        <text x="400" y="150" text-anchor="middle" class="flowchart text-dark">AC = 0, Qn+1 = 0, SC = n</text>
+                        <text x="400" y="170" text-anchor="middle" class="flowchart text-dark">BR ← Multiplicand, QR ← Multiplier</text>
+                        <text x="400" y="190" text-anchor="middle" class="flowchart text-dark">(QR holds the multiplier)</text>
+
+                        <!-- Decision Qn Qn+1 -->
+                        <polygon points="400,220 320,280 480,280" class="decision"/>
+                        <text x="400" y="265" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Qn Qn+1</text>
+
+                        <!-- Path 10 (Left) -->
+                        <rect x="100" y="300" width="120" height="80" class="process" rx="8"/>
+                        <text x="160" y="330" text-anchor="middle" class="flowchart text-dark">AC ← AC + BR + 1</text>
+                        <text x="160" y="350" text-anchor="middle" class="flowchart text-dark">(AC = AC - BR)</text>
+                        <text x="160" y="370" text-anchor="middle" class="flowchart text-dark">(Two's complement)</text>
+
+                        <!-- Path 01 (Right) -->
+                        <rect x="580" y="300" width="120" height="80" class="process" rx="8"/>
+                        <text x="640" y="330" text-anchor="middle" class="flowchart text-dark">AC ← AC + BR</text>
+                        <text x="640" y="350" text-anchor="middle" class="flowchart text-dark">(Add multiplicand)</text>
+
+                        <!-- Path 00/11 (Middle) - No operation -->
+                        <rect x="350" y="300" width="100" height="80" class="process" rx="8"/>
+                        <text x="400" y="340" text-anchor="middle" class="flowchart text-dark">No Operation</text>
+
+                        <!-- Shift and Decrement -->
+                        <rect x="250" y="400" width="300" height="100" class="process" rx="10"/>
+                        <text x="400" y="430" text-anchor="middle" class="flowchart text-dark" font-weight="bold">Shift and Decrement:</text>
+                        <text x="400" y="450" text-anchor="middle" class="flowchart text-dark">ashr (AC & QR)</text>
+                        <text x="400" y="470" text-anchor="middle" class="flowchart text-dark">(Arithmetic Shift Right)</text>
+                        <text x="400" y="490" text-anchor="middle" class="flowchart text-dark">SC = SC - 1</text>
+
+                        <!-- Decision SC -->
+                        <polygon points="400,520 320,580 480,580" class="decision"/>
+                        <text x="400" y="565" text-anchor="middle" class="flowchart text-dark" font-weight="bold">SC</text>
+
+                        <!-- END -->
+                        <ellipse cx="400" cy="650" rx="80" ry="35" class="start-end"/>
+                        <text x="400" y="657" text-anchor="middle" class="flowchart text-white" font-weight="bold">END</text>
+
+                        <!-- Arrows -->
+                        <path d="M400,75 L400,100" class="arrow"/>
+                        <path d="M400,200 L400,220" class="arrow"/>
+                        
+                        <!-- From decision to paths -->
+                        <path d="M320,280 L220,300" class="arrow"/>
+                        <path d="M480,280 L580,300" class="arrow"/>
+                        <path d="M400,280 L400,300" class="arrow"/>
+                        
+                        <!-- From paths to shift -->
+                        <path d="M160,380 L250,450" class="arrow"/>
+                        <path d="M640,380 L550,450" class="arrow"/>
+                        <path d="M400,380 L400,400" class="arrow"/>
+                        
+                        <!-- From shift to SC decision -->
+                        <path d="M400,500 L400,520" class="arrow"/>
+                        
+                        <!-- From SC decision -->
+                        <path d="M320,580 L400,615" class="arrow"/>
+                        <path d="M400,580 L400,615" class="arrow"/>
+
+                        <!-- Labels -->
+                        <text x="280" y="320" class="label">10</text>
+                        <text x="520" y="320" class="label">01</text>
+                        <text x="400" y="320" class="label">00/11</text>
+                        <text x="320" y="600" class="label">≠ 0</text>
+                        <text x="400" y="640" class="label">= 0</text>
+                        
+                        <!-- Loop back arrow -->
+                        <path d="M400,615 Q400,680 400,720 Q200,720 200,580 Q200,520 320,580" class="arrow" stroke-dasharray="5,5"/>
+                        <text x="180" y="650" class="label">Loop back</text>
+                    </svg>
+                </div>
+                <p class="flowchart-caption">Flowchart showing the step-by-step process of Booth's multiplication algorithm with proper initialization, decision logic, and arithmetic operations</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <h2 class="section-title">Interactive Calculator</h2>
+            <p class="section-subtitle">Enter two decimal numbers and see Booth's algorithm in action</p>
+
+            <div class="calculator-container">
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="multiplicand">Multiplicand (M):</label>
+                        <input type="number" id="multiplicand" placeholder="Enter first number" value="7">
+                    </div>
+                    <div class="input-group">
+                        <label for="multiplier">Multiplier (Q):</label>
+                        <input type="number" id="multiplier" placeholder="Enter second number" value="-3">
+                    </div>
+                    <button id="calculateBtn" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Calculate Step by Step
+                    </button>
+                </div>
+
+                <div class="result-section">
+                    <div class="binary-display">
+                        <div class="binary-row">
+                            <span class="label">M (Binary):</span>
+                            <span id="mBinary" class="binary-value">0111</span>
+                        </div>
+                        <div class="binary-row">
+                            <span class="label">Q (Binary):</span>
+                            <span id="qBinary" class="binary-value">1101</span>
+                        </div>
+                        <div class="binary-row">
+                            <span class="label">Expected Result:</span>
+                            <span id="expectedResult" class="binary-value">-21</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Process -->
+            <div class="steps-container">
+                <h3>Step-by-Step Process</h3>
+                <div class="steps-controls">
+                    <button id="prevStep" class="btn btn-secondary" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </button>
+                    <span id="stepCounter" class="step-counter">Step 0 of 0</span>
+                    <button id="nextStep" class="btn btn-secondary" disabled>
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                </div>
+
+                <div class="steps-table-container">
+                    <table id="stepsTable" class="steps-table">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>Q₀</th>
+                                <th>Q₋₁</th>
+                                <th>Action</th>
+                                <th>A (Accumulator)</th>
+                                <th>Q (Multiplier)</th>
+                                <th>Q₋₁</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stepsTableBody">
+                            <!-- Steps will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="final-result">
+                    <h4>Final Result</h4>
+                    <div class="result-display">
+                        <div class="result-row">
+                            <span class="result-label">Binary Result:</span>
+                            <span id="finalResultBinary" class="result-binary">00000000</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Decimal Result:</span>
+                            <span id="finalResultDecimal" class="result-decimal">0</span>
+                        </div>
+
+                    </div>
+                    <div id="resultInfo" class="result-info">
+                        <!-- Detailed result information will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="examples-section">
+        <div class="container">
+            <h2 class="section-title">Practice Examples</h2>
+            <div class="examples-grid">
+                <div class="example-card" data-m="5" data-q="3">
+                    <h4>5 × 3 = 15</h4>
+                    <p>Positive × Positive</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-m="7" data-q="-3">
+                    <h4>7 × (-3) = -21</h4>
+                    <p>Positive × Negative</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-m="-4" data-q="6">
+                    <h4>(-4) × 6 = -24</h4>
+                    <p>Negative × Positive</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+                <div class="example-card" data-m="-3" data-q="-5">
+                    <h4>(-3) × (-5) = 15</h4>
+                    <p>Negative × Negative</p>
+                    <button class="btn btn-outline">Try This</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Booth's Algorithm Calculator</h3>
+                    <p>Educational tool for learning computer architecture and binary multiplication</p>
+                </div>
+                <div class="footer-developer">
+                    <h4>Developed By</h4>
+                    <p><strong>Vraj Prajapati</strong></p>
+                    <p><a href="mailto:prajapativraj147@gmail.com">prajapativraj147@gmail.com</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Booth's Algorithm Calculator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
